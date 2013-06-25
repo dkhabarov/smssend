@@ -46,6 +46,7 @@ cliparser.add_argument("--message",metavar="MESSAGE", help="Read the message fro
 cliparser.add_argument("--from",dest="sendername",metavar="VALUE", help="Sender name (optional)")
 cliparser.add_argument("--time",metavar="VALUE", help="Send time in UNIX TIME format (optional)")
 cliparser.add_argument("--http_timeout",metavar="VALUE", help="Timeout for http connection (optional, default is 10)",default=10)
+cliparser.add_argument('--translit',help='Convert message to translit',action='store_true')
 cliparser.add_argument("--debug",help="Print debug messages",action="store_true")
 cliargs = cliparser.parse_args()
 servicecodes={
@@ -118,6 +119,8 @@ def main():
 		url="%s&from=%s" % (url, cliargs.sendername)
 	elif cliargs.time is not None:
 		url="%s&time=%d" % (url, int(cliargs.time))
+	elif cliargs.translit == True:
+		url='%s&translit=1' % (url)
 	
 	try:
 		res=urlopen(url,timeout=cliargs.http_timeout)
