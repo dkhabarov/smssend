@@ -18,12 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys, argparse
-if sys.version_info[0] != 2:
-	print >> sys.stderr, "You are using python version > 2. But this tool supports only 2.x." # TODO Python 3 support.
-	sys.exit(3)
+if sys.version_info[0] == 2:
+	from urllib2 import urlopen, URLError
+	from urllib import quote
+if sys.version_info[0] == 3:
+	from urllib.request import urlopen
+	from urllib.error import URLError
+	from urllib.parse import quote
 
-from urllib2 import urlopen, URLError
-from urllib import quote
 from os import getenv
 __author__ = "Denis 'Saymon21' Khabarov"
 __copyright__ = "Copyright © 2012 Denis 'Saymon21' Khabarov"
@@ -71,7 +73,7 @@ servicecodes={
 
 def show_debug_messages(msg):
 	if cliargs.debug == True:
-		print msg
+		print(msg)
 
 def get_home_path():
 	if sys.platform.startswith('freebsd') or sys.platform.startswith('linux'):
